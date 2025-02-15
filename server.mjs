@@ -23,10 +23,24 @@ app.post('/convert', (req, res) => {
         val: req.body.val
     }
 
-    const func = conversionFunctions[data["fromUnit"]][data["toUnit"]]
-    const convertedVal = func(data["val"])
+    // makes sure the conversion can be made
+    const checkValidConversion = function (from, to) {
+        if (from in conversionFunctions && to in conversionFunctions[from]) {
+            return true
+        }
 
-    res.json(convertedVal)
+        return false
+    }
+
+    if (checkValidConversion(data["fromUnit"], data["toUnit"])) {
+        const func = conversionFunctions[data["fromUnit"]][data["toUnit"]]
+        const convertedVal = func(data["val"])
+    
+        res.json(convertedVal)
+    } else {
+        res.status(400).send('The conversion service cannot calculate that type of conversion; \
+            send a request to /conversions to see which conversions can be made.')
+    }
 })
 
 // starts the server at the given port

@@ -33,3 +33,14 @@ Content-Type: application/json
     "toUnit": "cup",
     "val": 2.5
 }
+
+
+### This request uses a conversion that is not possible
+POST http://localhost:3000/convert
+Content-Type: application/json
+
+{
+    "fromUnit": "years",
+    "toUnit": "days",
+    "val": 4
+}
