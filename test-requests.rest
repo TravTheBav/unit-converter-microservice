@@ -35,6 +35,31 @@ Content-Type: application/json
 }
 
 
+### Calculate 3 conversions in one request
+POST http://localhost:3000/convert-multiple
+Content-Type: application/json
+
+{
+    "conversions": [
+        {
+            "fromUnit": "oz",
+            "toUnit": "cup",
+            "val": 2.5
+        },
+        {
+            "fromUnit": "pt",
+            "toUnit": "qt",
+            "val": 6
+        },
+        {
+            "fromUnit": "qt",
+            "toUnit": "cup",
+            "val": 0.25
+        }
+    ]
+}
+
+
 ### This request uses a conversion that is not possible
 POST http://localhost:3000/convert
 Content-Type: application/json
