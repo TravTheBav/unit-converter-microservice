@@ -7,7 +7,8 @@ const PORT = process.env.PORT
 const app = express()
 app.use(express.json())
 
-// makes sure the conversion can be made
+// Used to make sure the conversion can be made by looking up the 'from' and 'to'
+// strings in the conversionFunctions object.
 const checkValidConversion = function (from, to) {
     if (from in conversionFunctions && to in conversionFunctions[from]) {
         return true
@@ -15,6 +16,8 @@ const checkValidConversion = function (from, to) {
 
     return false
 }
+
+// ================================= ROUTES =====================================//
 
 // Gets all conversions that can be made; for each conversion, the first string
 // is the 'from' unit and the second string is the 'to' unit.
