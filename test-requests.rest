@@ -1,0 +1,35 @@
+### Get all conversions that can be requested to the server
+GET http://localhost:3000/conversions
+
+
+### Calculate a conversion from pints to ounces, with a value of 1
+POST http://localhost:3000/convert
+Content-Type: application/json
+
+{
+    "fromUnit": "pt",
+    "toUnit": "oz",
+    "val": 1
+}
+
+
+### Calculate a conversion from cups to quarts, with a value of 8
+POST http://localhost:3000/convert
+Content-Type: application/json
+
+{
+    "fromUnit": "cup",
+    "toUnit": "qt",
+    "val": 8
+}
+
+
+### Calculate a conversion from ounces to cups, with a value of 2.5
+POST http://localhost:3000/convert
+Content-Type: application/json
+
+{
+    "fromUnit": "oz",
+    "toUnit": "cup",
+    "val": 2.5
+}
