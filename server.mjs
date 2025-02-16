@@ -23,7 +23,8 @@ const checkValidConversion = function (from, to) {
 // is the 'from' unit and the second string is the 'to' unit.
 // example: ['pt', 'oz'] => from pint to ounce
 app.get('/conversions', (req, res) => {
-    res.json(conversionList)
+    const returnObject = { conversionList: conversionList }
+    res.json(returnObject)
 })
 
 // Performs the conversion and returns the value
@@ -33,14 +34,14 @@ app.post('/convert', (req, res) => {
         toUnit: req.body.toUnit,
         val: req.body.val
     }
+    const returnObject = { result: null }
 
     // Either performs the conversion and sends back the result, or tells the client
     // that the requested conversion is not possible
     if (checkValidConversion(data["fromUnit"], data["toUnit"])) {
-        const func = conversionFunctions[data["fromUnit"]][data["toUnit"]]
-        const convertedVal = func(data["val"])
-    
-        res.json(convertedVal)
+        const conversionFunction = conversionFunctions[data["fromUnit"]][data["toUnit"]]
+        returnObject.result = conversionFunction(data["val"])
+        res.json(returnObject)
     } else {
         res.status(400).send('The conversion service cannot calculate that type of conversion; \
             send a request to /conversions to see which conversions can be made.')
@@ -51,20 +52,20 @@ app.post('/convert', (req, res) => {
 // be used to perform one conversion, but it will still be contained in a JSON array
 app.post('/convert-multiple', (req, res) => {
     const conversions = req.body.conversions
-    const vals = []
+    const returnObject = { result: [] }
 
     conversions.forEach(conversion => {
         if (checkValidConversion(conversion["fromUnit"], conversion["toUnit"])) {
-            const func = conversionFunctions[conversion["fromUnit"]][conversion["toUnit"]]
-            const convertedVal = func(conversion["val"])
-            vals.push(convertedVal)
+            const conversionFunction = conversionFunctions[conversion["fromUnit"]][conversion["toUnit"]]
+            const convertedVal = conversionFunction(conversion["val"])
+            returnObject.result.push(convertedVal)
         } else {
             res.status(400).send('The conversion service could not calculate one or more of these conversions; \
                 send a request to /conversions to see which conversions can be made.')
         }
     })
     
-    res.json(vals)
+    res.json(returnObject)
 })
 
 // starts the server at the given port
