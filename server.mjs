@@ -1,6 +1,6 @@
 import express from 'express'
 import 'dotenv/config'
-import { conversionList, conversionFunctions } from './conversions.mjs'
+import { unitsList, conversionFunctions } from './conversions.mjs'
 
 // create an new express instance
 const PORT = process.env.PORT
@@ -23,7 +23,8 @@ const checkValidConversion = function (from, to) {
 // is the 'from' unit and the second string is the 'to' unit.
 // example: ['pt', 'oz'] => from pint to ounce
 app.get('/conversions', (req, res) => {
-    const returnObject = { conversionList: conversionList }
+    const returnObject = { units: unitsList }
+    console.log(`sending response: ${JSON.stringify(returnObject)}`)
     res.send(returnObject)
 })
 
@@ -41,6 +42,7 @@ app.post('/convert', (req, res) => {
     if (checkValidConversion(data["fromUnit"], data["toUnit"])) {
         const conversionFunction = conversionFunctions[data["fromUnit"]][data["toUnit"]]
         returnObject.result = conversionFunction(data["val"])
+        console.log(`sending response: ${JSON.stringify(returnObject)}`)
         res.send(returnObject)
     } else {
         res.status(400).send('The conversion service cannot calculate that type of conversion; \
@@ -62,9 +64,11 @@ app.post('/convert-multiple', (req, res) => {
         } else {
             res.status(400).send('The conversion service could not calculate one or more of these conversions; \
                 send a request to /conversions to see which conversions can be made.')
+            return
         }
     })
-    
+
+    console.log(`sending response: ${JSON.stringify(returnObject)}`)
     res.send(returnObject)
 })
 
