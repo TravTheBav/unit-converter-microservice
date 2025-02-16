@@ -7,11 +7,13 @@ Also, the examples here assume that the service is running on localhost:3000. If
 would have to be changed to use that URL instead.
 
 ### 1. Requesting Data
-**a. Getting unit types**
+**a. Getting unit types**<br/>
+<code>
 const response = await fetch('http://localhost:3000/conversions')<br/>
 const data = await response.json()<br/>
 console.log(data['units'])<br/>
 *This would print out to the console: ["pt", "oz", "qt", "cup", "L", "mL", "tsp", "Tbsp"]*<br/>
+</code>
 
 ### 2. Receiving Data
 
