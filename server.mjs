@@ -24,7 +24,7 @@ const checkValidConversion = function (from, to) {
 // example: ['pt', 'oz'] => from pint to ounce
 app.get('/conversions', (req, res) => {
     const returnObject = { conversionList: conversionList }
-    res.json(returnObject)
+    res.send(returnObject)
 })
 
 // Performs the conversion and returns the value
@@ -41,7 +41,7 @@ app.post('/convert', (req, res) => {
     if (checkValidConversion(data["fromUnit"], data["toUnit"])) {
         const conversionFunction = conversionFunctions[data["fromUnit"]][data["toUnit"]]
         returnObject.result = conversionFunction(data["val"])
-        res.json(returnObject)
+        res.send(returnObject)
     } else {
         res.status(400).send('The conversion service cannot calculate that type of conversion; \
             send a request to /conversions to see which conversions can be made.')
@@ -65,7 +65,7 @@ app.post('/convert-multiple', (req, res) => {
         }
     })
     
-    res.json(returnObject)
+    res.send(returnObject)
 })
 
 // starts the server at the given port
