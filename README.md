@@ -146,3 +146,4 @@ After this code runs, 'data' will contain the object:<br/>
 }<br/>
 
 ### 3. UML Diagram
+![UML diagram for the unit-converter service](./UML.png)
